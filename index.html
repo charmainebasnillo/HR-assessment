@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HR/CSR Pre-Training Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF2F8;--card:#fff;--ink:#14233A;--mute:#586679;--line:#D3DBE7;--acc:#154290;--on:#fff;--acc2:#E0A100;--ok:#1B7F4B;--bad:#B3402E;--sel:#E4ECFA;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1727;--card:#162338;--ink:#E7EDF6;--mute:#9BA9BB;--line:#2A3B54;--acc:#7FA6F0;--on:#0E1727;--acc2:#F0BC2E;--ok:#58C98B;--bad:#EE8C7B;--sel:#1C3052;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1727;--card:#162338;--ink:#E7EDF6;--mute:#9BA9BB;--line:#2A3B54;--acc:#7FA6F0;--on:#0E1727;--acc2:#F0BC2E;--ok:#58C98B;--bad:#EE8C7B;--sel:#1C3052;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Public Sans",system-ui,sans-serif}
+main{max-width:800px;margin:0 auto;padding:16px 16px 64px}
+h1,h2,h3{font-family:Bitter,Georgia,serif;line-height:1.2;margin:0}
+h1{font-size:clamp(24px,5vw,32px)}
+h2{font-size:21px;margin-bottom:4px}
+.brand{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.logo{background:#fff;border-radius:10px;padding:8px 14px;border:1px solid var(--line)}
+.logo img{display:block;height:64px;width:auto}
+.lead{color:var(--mute);max-width:62ch}
+.nav{display:flex;gap:8px;margin:8px 0 4px}
+.nav button{padding:8px 16px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:10px 0;z-index:5}
+.track{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--acc);transition:width .25s}
+.cnt{font-size:13px;color:var(--mute);margin-top:4px}
+.intro{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin:12px 0}
+.intro label{display:block;font-weight:600;margin-bottom:6px}
+.intro input,.intro select{width:100%;max-width:380px;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;margin-bottom:12px}
+.part{margin-top:30px;padding-bottom:6px;border-bottom:3px solid var(--acc2)}
+.q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0}
+.q.miss{border-color:var(--bad)}
+.q p{margin:0 0 10px;font-weight:600}
+.tag{font-size:13px;color:var(--acc);font-weight:600;margin-bottom:2px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin:6px 0;cursor:pointer}
+.opt:hover{border-color:var(--acc)}
+.opt:has(input:checked){background:var(--sel);border-color:var(--acc)}
+.opt:has(input:focus-visible){outline:2px solid var(--acc);outline-offset:2px}
+.opt input{margin-top:4px;accent-color:var(--acc)}
+button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:12px 22px;background:var(--acc);color:var(--on);cursor:pointer}
+button.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button.on{background:var(--acc);color:var(--on)}
+.err{color:var(--bad);font-weight:600;margin-top:10px;min-height:1.4em}
+.res{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin:16px 0}
+.big{font-family:Bitter,Georgia,serif;font-size:clamp(22px,5vw,30px);color:var(--acc)}
+.row{display:grid;grid-template-columns:minmax(120px,210px) 1fr 44px;gap:10px;align-items:center;margin:10px 0 2px;font-size:15px}
+.mb{height:12px;background:var(--line);border-radius:6px;overflow:hidden}
+.mb i{display:block;height:100%;border-radius:6px}
+ul{padding-left:20px}
+.ans{font-size:14px;color:var(--mute);margin:3px 0 12px}
+.ans b{color:var(--ok)}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.kp div{border:1px solid var(--line);border-radius:8px;padding:12px}
+.kp b{display:block;font-family:Bitter,Georgia,serif;font-size:26px;color:var(--acc)}
+.kp span{font-size:13px;color:var(--mute)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:760px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--sel);font-weight:600}
+td.c{text-align:center;font-weight:600}
+.g{color:var(--ok)}.y{color:#9A6B00}.r{color:var(--bad)}
+@media (prefers-color-scheme:dark){.y{color:#F0BC2E}}
+.note{background:var(--sel);border-radius:8px;padding:10px 14px;margin:12px 0;font-size:14px}
+.ic{vertical-align:-3px;flex:none}
+button .ic{margin-right:6px}
+.big .ic{vertical-align:-4px}
+[hidden]{display:none!important}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<main>
+<div class="brand"><div class="logo"><img alt="Taiheiyo Cement Philippines" src="data:image/png;base64,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"></div>
+<h1>HR/CSR pre-training assessment</h1></div>
+<div class="nav" id="nav" hidden><button id="tabT" class="on" type="button"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Take assessment</button><button id="tabA" class="alt" type="button"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>Admin report</button></div>
+
+<section id="take">
+<p class="lead">There are 20 questions. It takes about 10 minutes. There is no pass or fail. The questions show how you like to learn and what you know about HR and CSR (CSR means work with the community). Then the training can fit you. The HR admin will see your result.</p>
+<div class="bar"><div class="track"><div class="fill" id="fill"></div></div><div class="cnt" id="cnt">0 of 20 answered</div></div>
+<form id="f" onsubmit="return false">
+<div class="intro">
+<label for="nm">Full name</label><input id="nm" autocomplete="name">
+<label for="dp">Department or position</label><input id="dp">
+
+
+</div>
+<div id="qs"></div>
+<button id="go" type="button">See my results</button>
+<div class="err" id="err" role="alert"></div>
+</form>
+<section id="out" hidden></section>
+</section>
+
+<section id="adm" hidden></section>
+</main>
+
+<script>
+var STY={V:{i:"eye",n:"Visual (seeing)",t:"You learn best from what you can see.",tips:["Use charts, pictures and screenshots with notes.","Use colors for rules. Keep a one-page picture guide.","Share slides or short videos before the live session."]},
+A:{i:"ear",n:"Listening and talking",t:"You learn best by listening and talking.",tips:["Say the steps out loud. Answer her questions. Then ask her to say the steps back.","Use talks about real cases and short group chats. Do not use long manuals.","Let her record voice notes of the main steps."]},
+R:{i:"book",n:"Reading and writing",t:"You learn best from written steps and your own notes.",tips:["Give the handbook, written steps and checklists before the session.","Let her write her own notes and take short quizzes.","Give written feedback and a guide she can read again."]},
+K:{i:"wrench",n:"Doing (hands-on)",t:"You learn best by doing real or practice cases.",tips:["Start with practice cases and sample files, not long talks.","Practice employee and community problems together. Let her watch a real task.","Give a small task after each topic. Then help her with it."]}};
+
+var SQ=[
+["When I learn a new HR or CSR job, I like to…",["R|read the steps","V|see a picture or chart","K|try it myself","A|listen to someone explain"]],
+["If I forget how to do a task, I…",["A|remember what someone said","K|try it again step by step","V|see the screen or form in my mind","R|look at my notes"]],
+["In training, I like…",["K|practice activities","R|papers I can write on","A|talking and asking questions","V|slides with pictures"]],
+["To remember a rule, I…",["V|use colors or charts","A|say it out loud or talk about it","K|use it in examples","R|write it in my own words"]],
+["The comments that help me most are…",["R|written notes","V|an example with marks","A|a talk with someone","K|help while I do the task"]],
+["When I start something new, I…",["K|start and learn by doing","A|ask someone to help me","R|read the instructions first","V|look at the pictures first"]],
+["To teach a coworker the steps, I would…",["R|send a written guide","K|show them on the screen","V|draw it","A|tell them the steps"]],
+["The training I enjoyed most had…",["A|good speakers and group talks","V|pictures and videos","K|practice activities and examples","R|clear manuals and quizzes"]]
+];
+
+var DOM=["Attendance and timekeeping","Leave, pay and employee records","Onboarding and offboarding","Community relations and stakeholders","CSR programs and documentation","Community concerns and requests"];
+var DS=["Attendance","Leave/pay/records","On/offboarding","Community","CSR programs","Concerns"];
+var KQ=[
+[0,"An employee forgot to time in. What should you do?",["Ignore it and mark present","Fill in a missed-log form and ask the supervisor to approve it","Mark the employee absent right away","Ask a coworker to log in for the employee"],1],
+[0,"“Undertime” means…",["Working more than the work hours","Working fewer hours than the required work hours","Arriving early","Working on a holiday"],1],
+[1,"Leave without pay (LWOP) means…",["A paid day off","A day off with no leave credit, so no pay for that day","A deduction from a bonus","Extra pay for a holiday"],1],
+[1,"A Certificate of Employment (COE) usually shows…",["Work dates and job position","Work performance score","Health history","Names of the employee’s family"],0],
+[2,"What is an exit clearance mainly for?",["Only to collect feedback","To update the employee’s address","To check that company items are returned and debts are paid before final pay","To announce the resignation"],2],
+[2,"When an employee leaves, their system access should be…",["Kept for a month","Removed on or before their last day","Given to the new person","Left open"],1],
+[3,"Why talk to barangay (local) officials and community leaders before a community project?",["To avoid attention","To tell them only after it is finished","To learn what the community really needs and get their support","It is not needed"],2],
+[3,"A “stakeholder” is…",["Only people who own company shares","Anyone who is affected by the company’s work, or who can affect it","Only government officials","Only employees"],1],
+[4,"Why keep attendance sheets, photos and a report for a CSR activity?",["To show what was done, who was helped and what changed","Only for social media","To fill the cabinet","Only when something goes wrong"],0],
+[4,"The best way to know if a CSR program worked is to look at…",["How much money was spent","How many photos were taken","The number of events held","What changed for the people helped, compared with the goals"],3],
+[5,"A resident complains about dust or noise from the plant. What is the best first step?",["Listen, write the details, and send it to the right department. Then follow up.","Tell the resident it is normal","Do nothing unless they complain again","Post a reply on social media"],0],
+[5,"A community group asks for a donation. You should…",["Say yes right away","Say no to all requests","Check it with the CSR rules and budget. Then follow the approval steps.","Send it to any department"],2]
+];
+
+var ICO={eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+ear:'<path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0"/><path d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4"/>',
+book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+wrench:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/>',
+clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>',
+exit:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/>',
+users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+clip:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+chat:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+down:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
+chart:'<path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/>',
+edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>'};
+var DI=["clock","file","exit","users","clip","chat"];
+function ic(n,s){return '<svg class="ic" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICO[n]+'</svg>'}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var qs=document.getElementById("qs"),h="";
+h+='<div class="part"><h2>Part 1: How you learn</h2><div class="lead">Choose the answer that is most like you.</div></div>';
+SQ.forEach(function(q,i){h+='<div class="q" id="s'+i+'"><p>'+(i+1)+'. '+q[0]+'</p>';
+q[1].forEach(function(o){var p=o.split("|");h+='<label class="opt"><input type="radio" name="s'+i+'" value="'+p[0]+'"><span>'+p[1]+'</span></label>'});h+='</div>'});
+h+='<div class="part"><h2>Part 2: What you already know</h2><div class="lead">Choose the best answer. If you do not know, guess.</div></div>';
+KQ.forEach(function(q,i){h+='<div class="q" id="k'+i+'"><div class="tag">'+ic(DI[q[0]],16)+' '+(q[0]<3?"HR · ":"CSR · ")+DOM[q[0]]+'</div><p>'+(i+9)+'. '+q[1]+'</p>';
+q[2].forEach(function(o,j){h+='<label class="opt"><input type="radio" name="k'+i+'" value="'+j+'"><span>'+o+'</span></label>'});h+='</div>'});
+qs.innerHTML=h;
+
+var f=document.getElementById("f");
+function upd(){var n=f.querySelectorAll("input[type=radio]:checked").length;
+document.getElementById("cnt").textContent=n+" of 20 answered";document.getElementById("fill").style.width=(n*5)+"%"}
+f.addEventListener("change",upd);
+
+function lvl(p){return p>=85?"Advanced":p>=65?"Proficient":p>=40?"Developing":"Beginner"}
+var LV={Beginner:"Start with the basics: key words, main steps and easy practice with a trainer.",
+Developing:"You know the basics. Work on the weak topics below and practice with real cases.",
+Proficient:"You are good on most topics. Training can go fast. Focus on hard cases and weak points.",
+Advanced:"You are ready for harder topics: special cases, checks, better ways to work, and teaching others."};
+function dcol(p){return p>=100?"#1B7F4B":p>=50?"#E0A100":"#B3402E"}
+function dlab(p){return p>=100?"Strong":p>=50?"Partial":"Needs training"}
+function sty(st){return st.map(function(k){return STY[k].n}).join(" + ")}
+function grp(d,a,b){var c=0,t=0;for(var i=a;i<=b;i++){c+=d[i][0];t+=d[i][1]}return Math.round(c/t*100)}
+
+var db=null,user=null,isAdmin=false,myId=null,dbDone=false,downloads=null;
+var R_=null;
+document.getElementById("go").onclick=function(){
+var err=document.getElementById("err");err.textContent="";
+var nm=document.getElementById("nm");
+if(!nm.value.trim()){nm.focus();nm.scrollIntoView({block:"center"});err.textContent="Please enter your name first.";return}
+for(var i=0;i<20;i++){var id=i<8?"s"+i:"k"+(i-8);
+ if(!f.querySelector('input[name="'+id+'"]:checked')){var el=document.getElementById(id);el.classList.add("miss");el.scrollIntoView({block:"center"});err.textContent="Please answer question "+(i+1)+" first.";return}
+ document.getElementById(id).classList.remove("miss")}
+var sc={V:0,A:0,R:0,K:0};
+for(i=0;i<8;i++)sc[f.querySelector('input[name="s'+i+'"]:checked').value]++;
+var ord=Object.keys(sc).sort(function(a,b){return sc[b]-sc[a]});
+var blend=sc[ord[0]]-sc[ord[1]]<=1;
+var d=DOM.map(function(){return[0,0]}),miss=[],tot=0,ans=[];
+KQ.forEach(function(q,i){var v=+f.querySelector('input[name="k'+i+'"]:checked').value;ans.push(v);d[q[0]][1]++;
+ if(v===q[3]){d[q[0]][0]++;tot++}else miss.push([q,v])});
+var pct=Math.round(tot/12*100);
+var R={name:nm.value.trim(),dept:document.getElementById("dp").value.trim(),
+ st:blend?[ord[0],ord[1]]:[ord[0]],sc:sc,d:d,tot:tot,pct:pct,lvl:lvl(pct),ans:ans,ts:Date.now()};
+show(R,miss);
+save(R)};
+
+function show(R,miss){
+var st=R.st,L=R.lvl;
+var o='<div class="res"><div class="lead">'+esc(R.name)+(R.dept?" · "+esc(R.dept):"")+'</div>';
+o+='<h2>Learner type</h2><div class="big">'+st.map(function(k){return ic(STY[k].i,28)}).join(' ')+' '+sty(st)+'</div>';
+o+='<p>'+(st.length>1?"Your answers show two styles, so use both. ":"")+STY[st[0]].t+'</p><ul>';
+STY[st[0]].tips.forEach(function(t){o+='<li>'+t+'</li>'});
+if(st.length>1)STY[st[1]].tips.slice(0,2).forEach(function(t){o+='<li>'+t+'</li>'});
+o+='</ul><div class="ans">Style scores: '+["V","A","R","K"].map(function(k){return STY[k].n+" "+R.sc[k]+"/8"}).join(", ")+'</div></div>';
+o+='<div class="res"><h2>Overall knowledge level</h2><div class="big">'+L+' · '+R.pct+'%</div><p>'+R.tot+' of 12 correct. HR '+grp(R.d,0,2)+'%, CSR '+grp(R.d,3,5)+'%. '+LV[L]+'</p><h3 style="margin-top:18px;font-size:18px">By area</h3>';
+R.d.forEach(function(x,i){var p=Math.round(x[0]/x[1]*100);
+ o+='<div class="row"><span>'+ic(DI[i],16)+' '+(i<3?"HR · ":"CSR · ")+DOM[i]+'</span><div class="mb"><i style="width:'+p+'%;background:'+dcol(p)+'"></i></div><span>'+x[0]+'/'+x[1]+'</span></div><div class="ans" style="margin:0 0 6px">'+dlab(p)+'</div>'});
+var weak=[];R.d.forEach(function(x,i){if(x[0]<x[1])weak.push(DOM[i])});
+o+='<p><b>Training focus:</b> '+(weak.length?weak.join(", ")+".":"No gaps found. Use the time for advanced cases.")+'</p></div>';
+if(miss&&miss.length){o+='<div class="res"><h2>Questions to review</h2>';miss.forEach(function(m){o+='<p style="margin:12px 0 2px;font-weight:600">'+m[0][1]+'</p><div class="ans">Correct answer: <b>'+m[0][2][m[0][3]]+'</b></div>'});o+='</div>'}
+o+='<div class="note" id="sv">Saving your result…</div><button class="alt" id="re" type="button">Start over</button>';
+var out=document.getElementById("out");out.innerHTML=o;out.hidden=false;f.hidden=true;
+document.querySelector(".bar").hidden=true;document.querySelector("#take>.lead").hidden=true;window.scrollTo(0,0);
+document.getElementById("re").onclick=function(){f.reset();f.hidden=false;out.hidden=true;document.querySelector(".bar").hidden=false;document.querySelector("#take>.lead").hidden=false;upd();window.scrollTo(0,0)}}
+
+async function save(R){
+var n=document.getElementById("sv");
+try{await ready;if(db&&myId){await db.doc("responses/"+myId).set(R);n.textContent="Your result was sent to the HR admin. If you do the assessment again, the new result replaces this one."}
+ else n.textContent="Your result could not be sent to the admin. Maybe you are not signed in. It shows only here, so please send a screenshot."}
+catch(e){n.textContent="Your result could not be submitted"+(e&&e.code?" ("+e.code+")":"")+". It shows only here, so please send a screenshot."}}
+
+var ready=(async function(){
+try{if(window.claude){user=await claude.use("user");db=await claude.use("db");downloads=await claude.use("downloads");
+ if(user){isAdmin=await user.canEdit();myId=await user.id()}}}catch(e){}
+if(isAdmin&&db)document.getElementById("nav").hidden=false})();
+
+var rows=[],sub=false;
+function tab(a){document.getElementById("take").hidden=a;document.getElementById("adm").hidden=!a;
+document.getElementById("tabT").className=a?"alt":"on";document.getElementById("tabA").className=a?"on":"alt";
+if(a&&!sub){sub=true;document.getElementById("adm").innerHTML='<p class="lead">Loading results…</p>';
+ db.collection("responses").onSnapshot(function(s){rows=s.docs.map(function(x){var v=Object.assign({},x.data());v._id=x.id;return v});renderAdmin()},
+ function(e){document.getElementById("adm").innerHTML='<p class="err">Could not load results'+(e&&e.code?" ("+esc(e.code)+")":"")+'.</p>'})}}
+document.getElementById("tabT").onclick=function(){tab(false)};
+document.getElementById("tabA").onclick=function(){tab(true)};
+
+function renderAdmin(){
+var a=document.getElementById("adm"),n=rows.length;
+if(!n){a.innerHTML='<div class="res"><h2>Admin report</h2><p class="lead">No results yet. Share this page with trainees as Contributors; each submission appears here live.</p></div>';return}
+rows.sort(function(x,y){return(y.ts||0)-(x.ts||0)});
+var avg=Math.round(rows.reduce(function(s,r){return s+r.pct},0)/n);
+var lv={Beginner:0,Developing:0,Proficient:0,Advanced:0},sc={V:0,A:0,R:0,K:0},dc=DOM.map(function(){return[0,0]});
+rows.forEach(function(r){lv[r.lvl]++;(r.st||[]).forEach(function(k){sc[k]++});(r.d||[]).forEach(function(x,i){dc[i][0]+=x[0];dc[i][1]+=x[1]})});
+var top=Object.keys(sc).sort(function(x,y){return sc[y]-sc[x]});
+var dp=dc.map(function(x){return x[1]?Math.round(x[0]/x[1]*100):0});
+var weak=[];dp.forEach(function(p,i){if(p<60)weak.push(DOM[i])});
+var hrp=Math.round((dc[0][0]+dc[1][0]+dc[2][0])/Math.max(1,dc[0][1]+dc[1][1]+dc[2][1])*100),csp=Math.round((dc[3][0]+dc[4][0]+dc[5][0])/Math.max(1,dc[3][1]+dc[4][1]+dc[5][1])*100);
+var o='<div class="res"><h2>Group report</h2><div class="lead">Taiheiyo Cement Philippines · HR/CSR pre-training assessment · '+new Date().toLocaleDateString("en-PH",{year:"numeric",month:"long",day:"numeric"})+'</div>';
+o+='<div class="kp"><div><b>'+n+'</b><span>Respondents</span></div><div><b>'+avg+'%</b><span>Average score</span></div><div><b>'+hrp+'%</b><span>HR average</span></div><div><b>'+csp+'%</b><span>CSR average</span></div></div>';
+o+='<h3 style="font-size:18px">Knowledge levels</h3>';
+["Beginner","Developing","Proficient","Advanced"].forEach(function(k){var p=Math.round(lv[k]/n*100);o+='<div class="row"><span>'+k+'</span><div class="mb"><i style="width:'+p+'%;background:var(--acc)"></i></div><span>'+lv[k]+'</span></div>'});
+o+='<h3 style="font-size:18px;margin-top:18px">Learner types</h3>';
+["V","A","R","K"].forEach(function(k){var p=Math.round(sc[k]/n*100);o+='<div class="row"><span>'+ic(STY[k].i,16)+' '+STY[k].n+'</span><div class="mb"><i style="width:'+Math.min(100,p)+'%;background:var(--acc2)"></i></div><span>'+sc[k]+'</span></div>'});
+o+='<div class="ans">People with two styles are counted in both.</div>';
+o+='<h3 style="font-size:18px;margin-top:10px">Average by area</h3>';
+dp.forEach(function(p,i){o+='<div class="row"><span>'+ic(DI[i],16)+' '+(i<3?"HR · ":"CSR · ")+DOM[i]+'</span><div class="mb"><i style="width:'+p+'%;background:'+dcol(p>=80?100:p>=50?50:0)+'"></i></div><span>'+p+'%</span></div>'});
+o+='<h3 style="font-size:18px;margin-top:18px">Suggested training plan</h3><ul><li>How to teach: start with '+STY[top[0]].n.toLowerCase()+' methods'+(sc[top[1]]?', then add '+STY[top[1]].n.toLowerCase()+' activities':"")+'. '+STY[top[0]].tips[0]+'</li><li>Content: '+(weak.length?"spend the most time on "+weak.join(", ")+" (group average under 60%).":"no area is under 60%, so focus on harder cases.")+'</li><li>Level: '+(lv.Beginner+lv.Developing>=n/2?"most of the group is at Beginner or Developing, so start with the basics.":"most of the group is Proficient or above, so skip the basics and use real cases.")+'</li></ul></div>';
+o+='<div class="res"><h2>Individual results</h2><p style="margin:6px 0 12px"><button id="xl" type="button">'+ic('down',16)+'Download Excel report</button> <button id="csv" class="alt" type="button">Download simple CSV</button></p><div class="tw"><table><thead><tr><th>Name</th><th>Dept / position</th><th>Date</th><th>Learner type</th><th>Level</th><th>Score</th>';
+DS.forEach(function(s,i){o+='<th>'+(i<3?"HR ":"CSR ")+s+'</th>'});o+='</tr></thead><tbody>';
+rows.forEach(function(r){o+='<tr><td>'+esc(r.name)+'</td><td>'+esc(r.dept)+'</td><td>'+(r.ts?new Date(r.ts).toLocaleDateString("en-PH"):"")+'</td><td>'+esc(sty(r.st||[]))+'</td><td>'+esc(r.lvl)+'</td><td class="c">'+r.pct+'%</td>';
+ (r.d||[]).forEach(function(x){var p=Math.round(x[0]/x[1]*100);o+='<td class="c '+(p>=100?"g":p>=50?"y":"r")+'">'+x[0]+'/'+x[1]+'</td>'});o+='</tr>'});
+o+='</tbody></table></div><div class="ans">Green is strong, amber is partial, red needs training.</div></div>';
+a.innerHTML=o;
+document.getElementById("xl").onclick=function(){
+ var b=this;
+ if(!window.XLSX||!downloads){b.textContent="Excel is not available here. Use the CSV.";return}
+ var dt=new Date().toISOString().slice(0,10),pl=function(p){return p>=80?"Strong":p>=50?"Partial":"Needs training"};
+ var S=[["Taiheiyo Cement Philippines: HR/CSR pre-training assessment"],["Group report",dt],[],["Respondents",n],["Average score (%)",avg],["HR average (%)",hrp],["CSR average (%)",csp],[],["Knowledge levels"],["Level","People","Share (%)"]];
+ ["Beginner","Developing","Proficient","Advanced"].forEach(function(k){S.push([k,lv[k],Math.round(lv[k]/n*100)])});
+ S.push([],["Learner types (people with two styles are counted in both)"],["Style","People"]);
+ ["V","A","R","K"].forEach(function(k){S.push([STY[k].n,sc[k]])});
+ S.push([],["Average by area"],["Area","Group","Average (%)","Status"]);
+ dp.forEach(function(p,i){S.push([DOM[i],i<3?"HR":"CSR",p,pl(p)])});
+ S.push([],["Suggested training plan"],
+ ["How to teach","Start with "+STY[top[0]].n.toLowerCase()+" methods"+(sc[top[1]]?", then add "+STY[top[1]].n.toLowerCase()+" activities":"")+". "+STY[top[0]].tips[0]],
+ ["Content",weak.length?"Spend the most time on "+weak.join(", ")+" (group average under 60%).":"No area is under 60%, so focus on harder cases."],
+ ["Level",lv.Beginner+lv.Developing>=n/2?"Most of the group is at Beginner or Developing, so start with the basics.":"Most of the group is Proficient or above, so skip the basics and use real cases."]);
+ var I=[["Name","Department / position","Date","Learner type","Knowledge level","Total (of 12)","Score (%)","HR (%)","CSR (%)"].concat(DOM.map(function(s){return s+" (of 2)"}),["Visual (of 8)","Auditory (of 8)","Reading (of 8)","Hands-on (of 8)","Areas to focus on","Teaching tip","Next step"])];
+ rows.forEach(function(r){var d=r.d||[],w=[],s=r.sc||{};d.forEach(function(x,i){if(x[0]<x[1])w.push(DOM[i])});
+  I.push([r.name,r.dept||"",r.ts?new Date(r.ts).toISOString().slice(0,10):"",sty(r.st||[]),r.lvl,r.tot,r.pct,grp(d,0,2),grp(d,3,5)].concat(d.map(function(x){return x[0]}),[s.V||0,s.A||0,s.R||0,s.K||0,w.join(", ")||"None",STY[(r.st||["V"])[0]].tips[0],LV[r.lvl]]))});
+ var D=[["Name","Question no.","Area","Question","Answer given","Correct answer","Result"]];
+ rows.forEach(function(r){(r.ans||[]).forEach(function(v,i){var q=KQ[i];if(!q)return;D.push([r.name,i+9,DOM[q[0]],q[1],q[2][v]||"",q[2][q[3]],v===q[3]?"Correct":"Wrong"])})});
+ var wb=XLSX.utils.book_new(),ws;
+ ws=XLSX.utils.aoa_to_sheet(S);ws["!cols"]=[{wch:40},{wch:90},{wch:14},{wch:16}];XLSX.utils.book_append_sheet(wb,ws,"Summary");
+ ws=XLSX.utils.aoa_to_sheet(I);ws["!cols"]=I[0].map(function(x,i){return{wch:i<2?24:i<9?16:i>=19?44:18}});XLSX.utils.book_append_sheet(wb,ws,"Individual results");
+ ws=XLSX.utils.aoa_to_sheet(D);ws["!cols"]=[{wch:24},{wch:14},{wch:34},{wch:70},{wch:50},{wch:50},{wch:10}];XLSX.utils.book_append_sheet(wb,ws,"Answer details");
+ var buf=XLSX.write(wb,{bookType:"xlsx",type:"array"});
+ downloads.save({filename:"hr-csr-assessment-report.xlsx",data:buf}).catch(function(){})};
+document.getElementById("csv").onclick=function(){
+ var q=function(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"'};
+ var L=[["Name","Department","Date","Learner type","Level","Total (of 12)","Score %"].concat(DOM.map(function(s){return s+" (of 2)"})).map(q).join(",")];
+ rows.forEach(function(r){L.push([r.name,r.dept,r.ts?new Date(r.ts).toISOString().slice(0,10):"",sty(r.st||[]),r.lvl,r.tot,r.pct].concat((r.d||[]).map(function(x){return x[0]})).map(q).join(","))});
+ if(downloads)downloads.save({filename:"hr-csr-assessment-results.csv",data:"\ufeff"+L.join("\r\n")}).catch(function(){})}}
+</script>
+</body>
+</html>
